@@ -1,45 +1,50 @@
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default function PlaylistForm({ onAdd }) {
+export default function PlaylistForm({ onAdd, playlist, children }) {
+
     const [title, setTitle] = useState('');
 
     const dialogRef = useRef();
 
-    const openDialog = () => dialogRef.current.showModal();
-
-    const closeDialog = () => dialogRef.current.close();
+    // pre-populate form if updating existing playlist
+    useEffect(() => {
+        setTitle(playlist?.title);
+    }, [playlist]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onAdd({ title });
-
+        onAdd({...playlist, title });
         setTitle('');
-
-        closeDialog();
+        dialogRef.current.close();
     }
+
+    const openModal = () => dialogRef.current.showModal();
 
     return (
         <>
-            <button className="btn btn-primary" onClick={openDialog}>
-                New Playlist
-            </button>
-
+            {children({open: openModal})}
             <dialog ref={dialogRef}>
+                <h3>Create playlist</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label className="form-label">Title</label>
+                        <label htmlFor="title" className="form-label">Title</label>
                         <input
-                            className="form-control"
+                            name="title"
+                            type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                        />
-                        <div className="hstack gap-3">
-                            <button className="btn btn-success">Save</button>
-                            <button className="btn btn-danger"
-                                type="button"    
-                                onClick={closeDialog}>Cancel</button>
-                        </div>
+                            className="form-control" />
+                    </div>
+                    <div className="d-flex gap-3 my-3">
+                        <button 
+                            className="btn btn-success"
+                        >Save</button>
+                        <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => dialogRef.current.close()}
+                        >Cancel</button>
                     </div>
                 </form>
             </dialog>
