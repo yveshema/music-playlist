@@ -23,6 +23,8 @@ export default function PlaylistForm({ onAdd, playlist, children }) {
 
     return (
         <>
+            {/* Allow callsite to provide their own button implementation
+                for launching the dialog */}
             {children({open: openModal})}
             <dialog ref={dialogRef}>
                 <h3>Create playlist</h3>

@@ -24,6 +24,8 @@ export default function TrackForm({ onAdd, playlistId, track, children }) {
 
     return (
         <>
+            {/* Allow callsite to provide their own button implementation
+                for launching the dialog */}
             {children({open: openModal})}
             <dialog ref={dialogRef}>
                 <h3>{track ? 'Update track' : 'Add track'}</h3>
