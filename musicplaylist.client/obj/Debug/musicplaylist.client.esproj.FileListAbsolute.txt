@@ -1,0 +1,1 @@
+C:\Users\yshema\4513\aspnetcore\MusicPlaylist\musicplaylist.client\obj\Debug\musicplaylist.client.esproj.CoreCompileInputs.cache
